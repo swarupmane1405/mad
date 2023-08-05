@@ -1,0 +1,66 @@
+Implict:
+Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/English_Wikipedia"));
+                startActivity(intent);
+
+explicit sender activity:
+Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+               intent.putExtra("str",s);
+                startActivity(intent);
+
+reciver activity:
+Intent intent = getIntent();
+        String s = intent.getStringExtra("str");
+
+Menu:
+option:
+public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menubar,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int item_id = item.getItemId();
+        switch (item_id){
+            case R.id.item1:
+                Toast.makeText(MainActivity.this,"Item1",Toast.LENGTH_SHORT).show();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+pop:
+PopupMenu popupMenu = new PopupMenu(MainActivity2.this, button3);
+                popupMenu.getMenuInflater().inflate(R.menu.menubar,popupMenu.getMenu());
+                popupMenu.show();
+
+notification:
+Notification notification = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notification = new Notification.Builder(this).setSmallIcon(R.drawable.ic_launcher_background).setContentText("Hello").setSubText("This is new nottifaction").setChannelId(channelid).build();
+            nm.createNotificationChannel(new NotificationChannel(channelid,"new channel",NotificationManager.IMPORTANCE_HIGH));
+
+        }
+        nm.notify(notification_id,notification);
+
+shared prefernces:
+String s = editText.getText().toString();
+                SharedPreferences shr = getSharedPreferences("Demo", MODE_PRIVATE);
+                SharedPreferences.Editor editor = shr.edit();
+                editor.putString("str", s);
+                editor.apply();
+                SharedPreferences shr1 = getSharedPreferences("Demo", MODE_PRIVATE);
+                String x = shr1.getString("str",null);
+                Toast.makeText(MainActivity.this,x,Toast.LENGTH_SHORT).show();
+
+Broadcast:
+Sender:
+ Intent intent = new Intent();
+ intent.setAction("com.example.madlab");
+ intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+ sendBroadcast(intent);
+
+reciver:
+  IntentFilter intentFilter = new IntentFilter("com.example.madlab");
+        MyReceiver myReceiver = new MyReceiver();
+        registerReceiver(myReceiver,intentFilter);
